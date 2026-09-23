@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Env / secrets
+.env
+.streamlit/secrets.toml
+
+# Data (generated, not committed except small sample)
+data/*
+!data/.gitkeep
+!data/sample/
+
+# OS / editor
+.DS_Store
+.vscode/
+
+# Docker
+pgdata/
