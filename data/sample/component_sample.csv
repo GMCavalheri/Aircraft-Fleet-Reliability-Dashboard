@@ -1,0 +1,16 @@
+component_code,ata_chapter,component_name,component_category,criticality,unit_cost,hourly_downtime_cost
+ENG-CORE,72,Engine core module,engine_fuel,critical,850000,4500
+FUEL-PUMP,28,Fuel boost pump,engine_fuel,high,12000,1200
+FUEL-CTRL,73,Fuel control unit,engine_fuel,high,35000,1500
+MLG-ACT,32,Main landing gear actuator,landing_gear_hydraulics,critical,60000,2000
+HYD-PUMP,29,Hydraulic pump,landing_gear_hydraulics,high,22000,1300
+BRAKE-ASM,32,Brake assembly,landing_gear_hydraulics,high,15000,900
+NLG-STRUT,32,Nose landing gear strut,landing_gear_hydraulics,medium,18000,1000
+FMC,34,Flight management computer,avionics_electrical,high,40000,1800
+GEN,24,AC generator,avionics_electrical,high,28000,1400
+BATT,24,Main battery,avionics_electrical,medium,6000,600
+AIL-ACT,27,Aileron actuator,flight_controls,high,25000,1600
+ELEV-TRIM,27,Elevator trim motor,flight_controls,medium,9000,800
+CAB-PRESS,21,Cabin pressure controller,structural_ecs_apu,medium,11000,700
+APU-START,49,APU starter motor,structural_ecs_apu,medium,14000,900
+WING-SENS,53,Wing structural sensor,structural_ecs_apu,low,4000,400
