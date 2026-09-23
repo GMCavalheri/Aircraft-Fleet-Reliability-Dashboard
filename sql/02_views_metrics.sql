@@ -148,17 +148,20 @@ ORDER BY total_estimated_cost DESC;
 -- component's own time-to-failure.
 CREATE OR REPLACE VIEW warehouse.v_time_between_failures AS
 SELECT
-    aircraft_key,
-    component_key,
-    failed_at,
-    event_type,
-    flight_hours_at_failure
+    f.event_id,
+    f.aircraft_key,
+    f.component_key,
+    c.component_code,
+    f.failed_at,
+    f.event_type,
+    f.flight_hours_at_failure
         - COALESCE(
-            LAG(flight_hours_at_failure) OVER (
-                PARTITION BY aircraft_key, component_key ORDER BY failed_at
+            LAG(f.flight_hours_at_failure) OVER (
+                PARTITION BY f.aircraft_key, f.component_key ORDER BY f.failed_at
             ),
             0
           ) AS hours_since_last_event
-FROM warehouse.fact_maintenance_event
-WHERE event_type IN ('failure', 'replacement')
-  AND flight_hours_at_failure IS NOT NULL;
+FROM warehouse.fact_maintenance_event f
+JOIN warehouse.dim_component c ON c.component_key = f.component_key
+WHERE f.event_type IN ('failure', 'replacement')
+  AND f.flight_hours_at_failure IS NOT NULL;
