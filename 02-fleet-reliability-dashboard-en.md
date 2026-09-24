@@ -47,7 +47,7 @@ Since real airline fleet data isn't public, there are two options:
 
 ## Deliverables
 - Repository with data model, ETL scripts, and documented queries
-- Published interactive dashboard (Streamlit Cloud or similar)
+- Interactive Streamlit dashboard running locally against the Dockerized Postgres warehouse
 - Documentation of the reliability metrics and how they were calculated
 
 ## Portfolio Differentiators
