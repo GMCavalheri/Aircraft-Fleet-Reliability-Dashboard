@@ -7,6 +7,34 @@ layer, and an interactive Streamlit dashboard covering the classic
 reliability metrics -- MTBF, MTTR, availability, failure Pareto,
 Weibull hazard analysis, and estimated downtime cost.
 
+![Overview page: fleet KPIs, monthly failures by component category, and estimated cost by category](docs/images/overview.png)
+
+## Dashboard pages
+
+| Page | What it shows |
+|---|---|
+| **Overview** (above) | Fleet KPIs (failures, MTBF, MTTR, availability, total cost), monthly failures by component category, estimated cost by category |
+| **Components** | Failure Pareto with cumulative %, and the MTBF / MTTR / availability table per component |
+| **Aircraft** | MTBF ranked by tail number, plus a per-aircraft event-history drill-down |
+| **Weibull** | Live Weibull fit on one component's time-to-failure, next to the synthetic data's true generating parameters |
+
+All pages share the sidebar filters: aircraft type, component, maintenance base, and period. The Weibull page is the exception: it always fits on the full history.
+
+<table>
+  <tr>
+    <td width="33%" align="center"><b>Components</b></td>
+    <td width="33%" align="center"><b>Aircraft</b></td>
+    <td width="33%" align="center"><b>Weibull</b></td>
+  </tr>
+  <tr>
+    <td><a href="docs/images/components.png"><img src="docs/images/components.png" alt="Components page: failure Pareto chart and MTBF/MTTR/availability table"></a></td>
+    <td><a href="docs/images/aircraft.png"><img src="docs/images/aircraft.png" alt="Aircraft page: MTBF by aircraft, colored by aircraft type"></a></td>
+    <td><a href="docs/images/weibull.png"><img src="docs/images/weibull.png" alt="Weibull page: fitted beta 1.47 vs true 1.50 for the main battery"></a></td>
+  </tr>
+</table>
+
+Click any screenshot for full size. On the Weibull page, the main battery's 117 observations give a fitted β of 1.47 against a true 1.50.
+
 ## Architecture
 
 ```
@@ -31,26 +59,6 @@ generate.py --> CSVs --> etl.py --> staging schema --> warehouse star schema
 See [docs/data_model.md](docs/data_model.md) for the schema and
 [docs/metrics.md](docs/metrics.md) for every metric's formula, unit,
 and documented assumptions/caveats.
-
-## Screenshots
-
-**Overview** -- fleet KPIs, monthly failures by category, cost by category.
-
-![Overview page](docs/images/overview.png)
-
-**Components** -- failure Pareto and the MTBF/MTTR/availability table.
-
-![Components page](docs/images/components.png)
-
-**Aircraft** -- MTBF ranked by tail number, plus a per-aircraft event drill-down.
-
-![Aircraft page](docs/images/aircraft.png)
-
-**Weibull** -- live Weibull fit on one component's time-to-failure, next to
-the synthetic data's true generating parameters (β 1.47 fitted vs. 1.50 true
-for the main battery, from 117 observations).
-
-![Weibull page](docs/images/weibull.png)
 
 ## Quickstart
 
