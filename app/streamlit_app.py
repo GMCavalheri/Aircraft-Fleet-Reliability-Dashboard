@@ -36,7 +36,11 @@ col1.metric("Failures", f"{m['failure_count']:,}")
 col2.metric("MTBF (flight hours)", f"{m['mtbf_hours']:,.0f}")
 col3.metric("MTTR (hours)", f"{m['mttr_hours']:,.1f}")
 col4.metric("Availability", f"{m['availability']:.3%}")
-col5.metric("Total estimated cost", f"${m['total_cost']:,.0f}")
+col5.metric(
+    "Total estimated cost",
+    f"${m['total_cost'] / 1e6:,.1f}M",
+    help=f"${m['total_cost']:,.0f}",
+)
 
 st.divider()
 

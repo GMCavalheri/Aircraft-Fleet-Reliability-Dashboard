@@ -28,9 +28,16 @@ st.caption(
 TRUE_PARAMS = {c[0]: {"beta": c[7], "eta": c[8]} for c in COMPONENTS}
 NAMES = {c[0]: c[1] for c in COMPONENTS}
 
-component = st.selectbox("Component", sorted(TRUE_PARAMS), format_func=lambda c: f"{c} - {NAMES[c]}")
-
 tbf = load_time_between_failures()
+
+# Open on the component with the most observations -- the most reliable fit.
+options = sorted(TRUE_PARAMS)
+counts = tbf["component_code"].value_counts()
+default = options.index(counts.idxmax()) if not counts.empty else 0
+component = st.selectbox(
+    "Component", options, index=default, format_func=lambda c: f"{c} - {NAMES[c]}"
+)
+
 sample_values = tbf.loc[
     (tbf["component_code"] == component) & (tbf["hours_since_last_event"] > 1),
     "hours_since_last_event",

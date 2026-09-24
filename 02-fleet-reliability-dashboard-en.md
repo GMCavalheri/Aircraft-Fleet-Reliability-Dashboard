@@ -38,12 +38,12 @@ Since real airline fleet data isn't public, there are two options:
 4. Interactive dashboard with filters by aircraft, component, and period
 
 ## Execution Plan
-- [ ] **Phase 1 — Data modeling**: design a fact/dimension schema for maintenance and failure events.
-- [ ] **Phase 2 — Synthetic data generation**: simulate a realistic failure history (statistical reliability distributions).
-- [ ] **Phase 3 — ETL**: load pipeline into PostgreSQL, with data quality tests.
-- [ ] **Phase 4 — Analytical queries**: implement the metrics (MTBF, MTTR, availability, Pareto) in SQL.
-- [ ] **Phase 5 — Dashboard**: build interactive visualizations (Streamlit/Power BI) with filters and drill-down.
-- [ ] **Phase 6 — Documentation**: README explaining the data model, the metrics, and how to interpret them.
+- [x] **Phase 1 — Data modeling**: design a fact/dimension schema for maintenance and failure events.
+- [x] **Phase 2 — Synthetic data generation**: simulate a realistic failure history (statistical reliability distributions).
+- [x] **Phase 3 — ETL**: load pipeline into PostgreSQL, with data quality tests.
+- [x] **Phase 4 — Analytical queries**: implement the metrics (MTBF, MTTR, availability, Pareto) in SQL.
+- [x] **Phase 5 — Dashboard**: build interactive visualizations (Streamlit/Power BI) with filters and drill-down.
+- [x] **Phase 6 — Documentation**: README explaining the data model, the metrics, and how to interpret them.
 
 ## Deliverables
 - Repository with data model, ETL scripts, and documented queries

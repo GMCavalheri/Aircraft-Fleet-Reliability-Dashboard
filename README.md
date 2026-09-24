@@ -32,6 +32,26 @@ See [docs/data_model.md](docs/data_model.md) for the schema and
 [docs/metrics.md](docs/metrics.md) for every metric's formula, unit,
 and documented assumptions/caveats.
 
+## Screenshots
+
+**Overview** -- fleet KPIs, monthly failures by category, cost by category.
+
+![Overview page](docs/images/overview.png)
+
+**Components** -- failure Pareto and the MTBF/MTTR/availability table.
+
+![Components page](docs/images/components.png)
+
+**Aircraft** -- MTBF ranked by tail number, plus a per-aircraft event drill-down.
+
+![Aircraft page](docs/images/aircraft.png)
+
+**Weibull** -- live Weibull fit on one component's time-to-failure, next to
+the synthetic data's true generating parameters (β 1.47 fitted vs. 1.50 true
+for the main battery, from 117 observations).
+
+![Weibull page](docs/images/weibull.png)
+
 ## Quickstart
 
 ```bash
@@ -49,7 +69,7 @@ docker compose exec -T postgres psql -U fleet -d fleet_reliability < sql/02_view
 .venv/bin/python -m fleet_reliability.etl        # loads staging -> warehouse
 .venv/bin/python -m fleet_reliability.quality    # data-quality gate, exits non-zero on failure
 
-.venv/bin/pytest                                 # generator + integrity tests
+.venv/bin/pytest                                 # 24 tests; DB tests roll back, skip if Postgres is down
 
 .venv/bin/streamlit run app/streamlit_app.py
 ```
@@ -72,29 +92,30 @@ app/
   pages/2_Aircraft.py        MTBF by aircraft + per-tail event drill-down
   pages/3_Weibull.py         live Weibull fit vs. the generator's true parameters
   data.py, metrics.py, filters.py, db.py
-tests/test_generate.py     determinism, FK integrity, Weibull recovery sanity check
+tests/
+  test_generate.py          determinism, FK integrity, Weibull recovery sanity check
+  test_metrics.py           known-answer test: SQL views and dashboard pandas code agree
+  test_quality.py           each quality check fails on its planted bad row
+  conftest.py               hand-built fixture, loaded in a transaction and rolled back
+docs/images/                dashboard screenshots
 docs/data_model.md          schema, grain, ERD, documented simplifications
 docs/metrics.md             every metric's formula and caveats
 ```
 
-## Deployment
+## Running locally
 
-The dashboard is designed to run unmodified against either the local
-Docker Postgres or a hosted one:
+Everything runs on your machine; there is no hosted component.
 
-1. **Database**: create a free Postgres instance (e.g.
-   [Neon](https://neon.tech) or [Supabase](https://supabase.com)),
-   apply `sql/01_schema.sql` and `sql/02_views_metrics.sql`, then run
-   `fleet_reliability.etl` with `DATABASE_URL` pointed at it.
-2. **App**: push this repo to GitHub and deploy `app/streamlit_app.py`
-   on [Streamlit Cloud](https://streamlit.io/cloud). Set `DATABASE_URL`
-   in the app's Secrets (`st.secrets`) -- `app/db.py` already prefers
-   `st.secrets` over the `.env` file used locally, so no code change is
-   needed between environments.
-
-The generated dataset is small by design (a few MB total, see
-[generate.py](src/fleet_reliability/generate.py)) so it fits
-comfortably within a free-tier hosted database.
+- Postgres runs in Docker (`docker-compose.yml`) and is published on host
+  port **5433**, not the default 5432, so it doesn't collide with any other
+  Postgres you may already run. Data persists in the `pgdata` volume.
+- The ETL, the quality checks and the dashboard all read `DATABASE_URL`
+  from `.env` (copied from `.env.example`).
+- The dashboard is served at <http://localhost:8501> by `streamlit run`.
+- To start over from an empty database, run `docker compose down -v` (this
+  deletes the volume), then repeat the quickstart.
+- The generated dataset is a few MB, so regenerating and reloading it
+  takes seconds.
 
 ## Reliability metrics implemented
 
