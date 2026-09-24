@@ -57,7 +57,7 @@ AIRCRAFT_TYPES = [
     ("E190", "Embraer", 10),
 ]
 N_AIRCRAFT = sum(share for _, _, share in AIRCRAFT_TYPES)  # 100 -> scaled below
-FLEET_SIZE = 45  # keep the dataset small enough for a free-tier hosted DB
+FLEET_SIZE = 45  # a few MB of data: fast to regenerate and reload locally
 
 BASES = [
     ("GRU", "Sao Paulo Guarulhos MX Base", "South America", "Brazil"),
